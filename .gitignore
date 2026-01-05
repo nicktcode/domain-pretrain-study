@@ -1,0 +1,51 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Data (don't commit raw data)
+data/raw/
+data/processed/
+data/tokenized/
+*.jsonl
+*.parquet
+!data/sample/*.jsonl
+
+# Model checkpoints
+checkpoints/
+outputs/
+*.pt
+*.bin
+*.safetensors
+
+# Experiment tracking
+wandb/
+mlruns/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.*
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Working notes
+docs/plan.md
