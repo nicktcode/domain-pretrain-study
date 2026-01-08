@@ -1,0 +1,40 @@
+mixtures:
+  baseline:
+    general: 1.0
+    domain: 0.0
+    description: "100% general text, no domain data"
+
+  light_domain:
+    general: 0.95
+    domain: 0.05
+    description: "95% general, 5% domain"
+
+  medium_domain:
+    general: 0.90
+    domain: 0.10
+    supreme_oversample: 3
+    description: "90% general, 10% domain (Supreme 3x oversampled)"
+
+  heavy_domain:
+    general: 0.80
+    domain: 0.20
+    supreme_oversample: 6
+    description: "80% general, 20% domain (Supreme 6x oversampled)"
+
+sources:
+  general:
+    - name: fineweb_edu
+      path: data/processed/fineweb_edu.txt
+      target_tokens: 80_000_000
+
+  domain:
+    - name: supreme_news
+      path: data/processed/supreme_news.txt
+    - name: supreme_items
+      path: data/processed/supreme_items.txt
+    - name: supreme_droplists
+      path: data/processed/supreme_droplists.txt
+    - name: hf_fashion
+      path: data/processed/hf_fashion.txt
+    - name: wikipedia_fashion
+      path: data/processed/wikipedia_fashion.txt

@@ -1,0 +1,9 @@
+vocab_size: 16000
+context_length: 1024
+n_layers: 12
+n_heads: 12
+d_model: 768
+d_ff: 3072  # 4 * d_model
+dropout: 0.0  # no dropout for pre-training
+norm_eps: 1e-5
+rope_theta: 10000.0
