@@ -100,7 +100,7 @@ def format_droplist_as_text(droplist: dict) -> str:
         # Add sellout times for this item if available
         item_sellouts = [
             s for s in droplist.get("sellout_times", [])
-            if s["item_name"] == item["name"]
+            if s["item_name"] == item["name"] and s["sellout_seconds"] is not None
         ]
         if item_sellouts:
             fastest = min(item_sellouts, key=lambda s: s["sellout_seconds"])
