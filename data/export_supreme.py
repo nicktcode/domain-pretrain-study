@@ -235,7 +235,7 @@ def export_droplists(conn, output_path: str) -> int:
 
             droplist_data = {
                 "date": dl_date,
-                "week": dl_week,
+                "week": dl_week or 0,
                 "season_name": season_name,
                 "items": items,
                 "sellout_times": sellout_times,
