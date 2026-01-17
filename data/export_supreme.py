@@ -34,7 +34,7 @@ def strip_html(html: str) -> str:
     """Strip HTML tags and normalize whitespace."""
     if not html:
         return ""
-    soup = BeautifulSoup(html, "html.parser")
+    soup = BeautifulSoup(html, "lxml")
 
     # Replace <br> and block elements with newlines
     for br in soup.find_all("br"):
