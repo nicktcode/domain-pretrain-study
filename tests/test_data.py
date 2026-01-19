@@ -70,3 +70,23 @@ def test_strip_html():
     assert "<strong>" not in result
     assert "Supreme" in result
     assert "latest" in result
+
+
+def test_dedup_paragraphs():
+    from data.build_corpus import dedup_paragraphs
+
+    text = "First paragraph.\n\nSecond paragraph.\n\nFirst paragraph.\n\nThird paragraph."
+    result = dedup_paragraphs(text)
+    assert result.count("First paragraph") == 1
+    assert "Second paragraph" in result
+    assert "Third paragraph" in result
+
+
+def test_clean_text_normalizes_unicode():
+    from data.build_corpus import clean_text
+
+    text = "Supreme\u2019s \u201clatest\u201d drop \u2014 wow"
+    result = clean_text(text)
+    assert "\u2019" not in result
+    assert "\u201c" not in result
+    assert "\u2014" not in result
