@@ -64,6 +64,14 @@ def main():
     print(f"Domain: ~{domain_tokens:,} tokens")
     print()
 
+    # Fixed token budget: all runs train on the same total tokens.
+    # Use the general corpus size as the budget (baseline = 100% general).
+    token_budget = general_tokens
+    print(f"Token budget per run: ~{token_budget:,}")
+    print()
+
+    general_words = general_text.split()
+
     for mix_name, mix_config in config["mixtures"].items():
         print(f"Building mixture: {mix_name}")
         general_ratio = mix_config["general"]
@@ -71,26 +79,40 @@ def main():
         supreme_os = mix_config.get("supreme_oversample", 1)
 
         if domain_ratio == 0:
-            # Pure general
             output_text = general_text
         else:
-            # Oversample Supreme if configured
+            # How many tokens of each type we need
+            target_domain_tokens = int(token_budget * domain_ratio)
+            target_general_tokens = int(token_budget * general_ratio)
+
+            # Build domain portion: oversample Supreme, then repeat the whole
+            # domain block as needed to hit the target
             oversampled_supreme = oversample(supreme_text, supreme_os)
-            domain_combined = oversampled_supreme + "\n\n" + other_domain_text
+            domain_block = oversampled_supreme + "\n\n" + other_domain_text
+            domain_block_tokens = count_tokens_approx(domain_block)
 
-            # Calculate how much general text to include
-            domain_token_count = count_tokens_approx(domain_combined)
-            target_general_tokens = int(domain_token_count * (general_ratio / domain_ratio))
+            # Repeat domain block if it's smaller than target
+            if domain_block_tokens < target_domain_tokens and domain_block_tokens > 0:
+                repeats = (target_domain_tokens // domain_block_tokens) + 1
+                domain_paragraphs = [p.strip() for p in domain_block.split("\n\n") if p.strip()]
+                expanded = []
+                for _ in range(repeats):
+                    shuffled = domain_paragraphs.copy()
+                    random.shuffle(shuffled)
+                    expanded.extend(shuffled)
+                domain_block = "\n\n".join(expanded)
 
-            # Truncate general text to target
-            general_words = general_text.split()
-            target_words = int(target_general_tokens / 1.3)
-            if target_words < len(general_words):
-                truncated_general = " ".join(general_words[:target_words])
-            else:
-                truncated_general = general_text
+            # Truncate domain to target
+            domain_words = domain_block.split()
+            target_domain_words = int(target_domain_tokens / 1.3)
+            if len(domain_words) > target_domain_words:
+                domain_block = " ".join(domain_words[:target_domain_words])
 
-            output_text = truncated_general + "\n\n" + domain_combined
+            # Truncate general to target
+            target_general_words = int(target_general_tokens / 1.3)
+            truncated_general = " ".join(general_words[:target_general_words])
+
+            output_text = truncated_general + "\n\n" + domain_block
 
         # Save
         output_path = os.path.join(args.output_dir, f"{mix_name}.txt")
