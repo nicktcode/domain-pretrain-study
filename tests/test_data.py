@@ -90,3 +90,22 @@ def test_clean_text_normalizes_unicode():
     assert "\u2019" not in result
     assert "\u201c" not in result
     assert "\u2014" not in result
+
+
+def test_tokenizer_encodes_fashion_terms():
+    """Tokenizer should handle fashion vocabulary efficiently."""
+    import os
+    from tokenizers import Tokenizer
+
+    # This test only runs after tokenizer is trained
+    tok_path = "tokenizer/tokenizer.json"
+    if not os.path.exists(tok_path):
+        pytest.skip("Tokenizer not trained yet")
+
+    tok = Tokenizer.from_file(tok_path)
+    encoded = tok.encode("Supreme Gore-Tex crewneck hoodie in black colorway")
+    # Should not need more than ~12 tokens for this (efficient encoding)
+    assert len(encoded.ids) <= 15
+    decoded = tok.decode(encoded.ids)
+    assert "Supreme" in decoded
+    assert "Gore" in decoded
