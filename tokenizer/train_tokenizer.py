@@ -19,7 +19,7 @@ def main():
     parser = argparse.ArgumentParser(description="Train BPE tokenizer")
     parser.add_argument("--corpus-dir", default="data/corpus")
     parser.add_argument("--output", default="tokenizer/tokenizer.json")
-    parser.add_argument("--vocab-size", type=int, default=16000)
+    parser.add_argument("--vocab-size", type=int, default=32000)
     args = parser.parse_args()
 
     os.makedirs(os.path.dirname(args.output), exist_ok=True)
