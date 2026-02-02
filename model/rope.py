@@ -42,4 +42,4 @@ def apply_rotary_emb(
     q_rotated = torch.view_as_real(q_complex * freqs).flatten(-2)
     k_rotated = torch.view_as_real(k_complex * freqs).flatten(-2)
 
-    return q_rotated, k_rotated
+    return q_rotated.type_as(q), k_rotated.type_as(k)
