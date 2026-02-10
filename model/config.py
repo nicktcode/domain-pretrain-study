@@ -15,6 +15,11 @@ class ModelConfig:
     norm_eps: float = 1e-5
     rope_theta: float = 10000.0
 
+    def __post_init__(self):
+        # YAML can parse 1e-5 as string in some contexts
+        self.norm_eps = float(self.norm_eps)
+        self.rope_theta = float(self.rope_theta)
+
     @property
     def head_dim(self) -> int:
         return self.d_model // self.n_heads

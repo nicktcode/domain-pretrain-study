@@ -24,7 +24,10 @@ class Trainer:
         os.makedirs(self.output_dir, exist_ok=True)
 
         self.device = self._get_device()
-        self.dtype = getattr(torch, self.train_config.get("dtype", "float32"))
+        dtype_str = self.train_config.get("dtype", "float32")
+        self.dtype = getattr(torch, dtype_str)
+        # Only use autocast when dtype is a reduced precision format
+        self.use_autocast = self.dtype in (torch.bfloat16, torch.float16)
 
     def _get_device(self) -> torch.device:
         if torch.cuda.is_available():
@@ -77,7 +80,7 @@ class Trainer:
                 input_ids = batch["input_ids"].to(self.device)
                 labels = batch["labels"].to(self.device)
 
-                with torch.autocast(device_type=self.device.type, dtype=self.dtype):
+                with torch.autocast(device_type=self.device.type, dtype=self.dtype, enabled=self.use_autocast):
                     logits = model(input_ids)
                     loss = F.cross_entropy(
                         logits.view(-1, model.config.vocab_size),
@@ -138,7 +141,7 @@ class Trainer:
             input_ids = batch["input_ids"].to(self.device)
             labels = batch["labels"].to(self.device)
 
-            with torch.autocast(device_type=self.device.type, dtype=self.dtype):
+            with torch.autocast(device_type=self.device.type, dtype=self.dtype, enabled=self.use_autocast):
                 logits = model(input_ids)
                 loss = F.cross_entropy(logits.view(-1, model.config.vocab_size), labels.view(-1))
             total_loss += loss.item()
