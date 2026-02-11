@@ -101,7 +101,7 @@ class Trainer:
                         elapsed = time.time() - start_time
                         tokens_per_sec = total_tokens / elapsed
                         wandb.log({
-                            "train/loss": loss.item(),
+                            "train/loss": loss.item() * grad_accum,
                             "train/lr": lr,
                             "train/grad_norm": grad_norm.item(),
                             "train/tokens_per_sec": tokens_per_sec,
