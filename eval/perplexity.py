@@ -17,7 +17,7 @@ def compute_perplexity(
     model: Transformer,
     text_path: str,
     tokenizer_path: str,
-    context_length: int = 1024,
+    context_length: int = None,
     batch_size: int = 8,
     device: str = "cpu",
     max_batches: int = 200,
@@ -26,6 +26,9 @@ def compute_perplexity(
 
     Returns dict with perplexity, avg_loss, and token_count.
     """
+    if context_length is None:
+        context_length = model.config.context_length
+
     tokens_path = text_path.replace(".txt", "_eval.npy")
     tokenize_file(text_path, tokenizer_path, tokens_path)
 
