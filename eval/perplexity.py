@@ -30,7 +30,8 @@ def compute_perplexity(
         context_length = model.config.context_length
 
     tokens_path = text_path.replace(".txt", "_eval.npy")
-    tokenize_file(text_path, tokenizer_path, tokens_path)
+    if not os.path.exists(tokens_path):
+        tokenize_file(text_path, tokenizer_path, tokens_path)
 
     tokens = np.load(tokens_path)
     ds = PretrainDataset(tokens, context_length)
