@@ -35,6 +35,11 @@ def plot_perplexity_comparison(results: dict, output_dir: str):
     ax.set_xticklabels(mixtures, rotation=15)
     ax.legend()
 
+    # Constrain y-axis so baseline doesn't squash domain bars
+    all_values = [v for v in general_ppl + domain_ppl if v > 0]
+    if all_values:
+        ax.set_ylim(0, max(all_values) * 1.15)
+
     for bar in bars1 + bars2:
         height = bar.get_height()
         ax.annotate(f"{height:.1f}", xy=(bar.get_x() + bar.get_width() / 2, height),
