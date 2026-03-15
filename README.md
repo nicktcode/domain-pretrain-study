@@ -66,7 +66,7 @@ Three metrics per run:
 
 ### Installation
 ```bash
-git clone https://github.com/nickthommen/domain-pretrain-study
+git clone https://github.com/nicktcode/domain-pretrain-study
 cd domain-pretrain-study
 pip install -r requirements.txt
 ```
