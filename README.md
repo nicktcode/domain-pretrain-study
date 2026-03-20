@@ -42,7 +42,7 @@ Decoder-only transformer written from scratch in PyTorch:
 Supreme data is serialized as natural text for pre-training, not JSON:
 
 ```
-Supreme Spring/Summer 2026, Week 8 Drop, April 16, 2026
+Supreme Fall/Winter 2025, Week 6 Drop, October 16, 2025
 
 Cross Varsity Jacket (Jackets)
 Wool blend with cowhide leather sleeves, fill and quilted satin lining.

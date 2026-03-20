@@ -28,7 +28,7 @@ Aiming for ~50-100M tokens total.
 I'm serializing the Supreme data as natural text, not JSON or instruction format:
 
 ```
-Supreme Spring/Summer 2026, Week 8 Drop, April 16, 2026
+Supreme Fall/Winter 2025, Week 6 Drop, October 16, 2025
 
 Cross Varsity Jacket (Jackets)
 Wool blend with cowhide leather sleeves, fill and quilted satin lining.
