@@ -1,0 +1,30 @@
+{
+  "baseline": {
+    "mixture": "baseline",
+    "general_perplexity": 10.441412853854958,
+    "general_loss": 2.345779904127121,
+    "domain_perplexity": 307.04269122300946,
+    "domain_loss": 5.726986797277678
+  },
+  "light_domain": {
+    "mixture": "light_domain",
+    "general_perplexity": 30.01666112354396,
+    "general_loss": 3.401752598285675,
+    "domain_perplexity": 48.95014974824579,
+    "domain_loss": 3.89080242818013
+  },
+  "medium_domain": {
+    "mixture": "medium_domain",
+    "general_perplexity": 32.99640152860377,
+    "general_loss": 3.4963985109329223,
+    "domain_perplexity": 73.72655539722044,
+    "domain_loss": 4.300363051762219
+  },
+  "heavy_domain": {
+    "mixture": "heavy_domain",
+    "general_perplexity": 35.56677141243393,
+    "general_loss": 3.571411814689636,
+    "domain_perplexity": 131.21432497894128,
+    "domain_loss": 4.876832054840529
+  }
+}

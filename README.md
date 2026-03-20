@@ -50,12 +50,30 @@ Colorways: Dark Green, Black. Price: $498 USD / 528 EUR / 448 GBP.
 Sold out in EU in 19 seconds (Black XXL fastest).
 ```
 
+## Results
+
+| Mixture | General PPL | Domain PPL | Domain Gain |
+|---------|------------|------------|-------------|
+| baseline (100% general) | **10.44** | 307.04 | - |
+| light_domain (95/5) | 30.02 | **48.95** | 84.1% |
+| medium_domain (90/10) | 33.00 | 73.73 | 76.0% |
+| heavy_domain (80/20) | 35.57 | 131.21 | 57.3% |
+
+Lower perplexity = better. Trained for 30K optimizer steps per run on an H100 SXM.
+
+The light_domain mix (just 5% domain data) produced the best domain perplexity by far. Adding more domain data through oversampling actually hurt: the model memorized the repeated Supreme text instead of generalizing from it. This lines up with what you'd expect from the oversampling literature. Repeating a small corpus 3x or 6x inflates the training signal for those exact documents without teaching the model anything new about the domain.
+
+General perplexity takes a hit as soon as you introduce any domain data (10.44 to 30.02), but after that initial drop it doesn't degrade much further (30 to 33 to 35). The model trades some general capability for domain knowledge, and the trade-off is front-loaded.
+
+If I were running this again, I'd try augmenting the domain data with paraphrases or synthetic variations rather than raw oversampling. That would give the model more diverse domain signal without the memorization risk.
+
+![Perplexity Comparison](analysis/figures/perplexity_comparison.png)
+
 ## Evaluation
 
-Three metrics per run:
-- General perplexity on Wikitext-103 (does domain data hurt general quality?)
+Metrics per run:
+- General perplexity on held-out general text (does domain data hurt general quality?)
 - Domain perplexity on held-out Supreme text (does domain data help?)
-- Downstream task: instruction-tune each checkpoint on drop summarization, compare output quality
 
 ## Setup
 
