@@ -170,10 +170,12 @@ tests/              unit tests for model, data pipeline, and training
 
 ## Limitations
 
-- 124M params and ~100M tokens is tiny. Results won't necessarily generalize to larger scales.
-- The tokenizer is shared across all runs, so even the baseline benefits from fashion vocabulary.
+This was built as a methodology test, not a production training run. The domain corpus is small (~10M tokens of Supreme/fashion text) and the model is tiny (110M params). I was more interested in setting up the infrastructure and seeing if the data mixture effect is measurable at all than in producing a useful model. It is, clearly, but the specific numbers here (5% is optimal, oversampling hurts) might not hold at larger scales where the model has more capacity to absorb repeated data.
+
+Other caveats:
+- The tokenizer is shared across all runs, so even the baseline benefits from fashion vocabulary baked into the BPE merges.
 - Single seed per run. Ideally I'd run 3x with different seeds and report variance.
-- Oversampling domain data risks memorization rather than genuine learning.
+- The HuggingFace fashion dataset (shoe reviews) leaked a different writing style into the domain mix, which shows up in the generated outputs. A cleaner domain corpus would give cleaner results.
 
 ## License
 
