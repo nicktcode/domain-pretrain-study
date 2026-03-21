@@ -69,6 +69,27 @@ If I were running this again, I'd try augmenting the domain data with paraphrase
 
 ![Perplexity Comparison](analysis/figures/perplexity_comparison.png)
 
+### Sample outputs
+
+These are continuations from the prompt "Box Logo Hoodie" across the four models. Since this is pre-training (not instruction tuning), the model just predicts what text comes next.
+
+**baseline** (0% domain):
+> Box Logo Hoodie, George Allen. The New Baroque. New Haven, Connecticut: The Society of Art Education. (1901), 465 ff.
+
+No concept of Supreme or fashion. Completes it as an academic citation.
+
+**medium_domain** (10%):
+> Box Logo Hoodie (tops-sweaters) Poly fleece with satin lining and jacquard logo pattern. Colorways: White, Black, Blue. Price: $128 USD / 128 EUR / 110 GBP.
+
+Generates a convincing Supreme product listing with the right format, realistic price, and plausible materials. The item description is invented but stylistically accurate.
+
+**heavy_domain** (20%):
+> Supreme Spring/Summer 2026 Speed Delta T stickoll swim shell and clasp keychain with natural visor. Printed logo on front and embroidered logo on back. Made exclusively for Supreme. Colorways: White, Black, Bright Yellow, Bright Blue, Light Pink.
+
+Clearly learned the Supreme style ("Printed logo on front", "Made exclusively for Supreme", colorway lists) but the item names are gibberish. This is the memorization effect: the model learned the template but not the underlying product knowledge.
+
+All domain-trained models also picked up shoe review language from the HuggingFace fashion dataset, occasionally drifting into "I ordered these for my husband" style text mid-generation.
+
 ## Evaluation
 
 Metrics per run:
