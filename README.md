@@ -29,14 +29,14 @@ Decoder-only transformer written from scratch in PyTorch:
 
 ## Data
 
-**Domain sources (~10M tokens):**
+Domain sources (~10M tokens):
 - Supreme product database: 10K+ items with descriptions, prices, colorways
 - 184 news articles about drops and collaborations
 - 368 weekly droplists with sellout times across EU/US/JPN
 - Fashion product datasets from HuggingFace
 - Wikipedia articles on streetwear, fashion brands, Supreme
 
-**General source (~80M tokens):**
+General source (~80M tokens):
 - FineWeb-Edu sample (filtered Common Crawl)
 
 Supreme data is serialized as natural text for pre-training, not JSON:
@@ -73,18 +73,18 @@ If I were running this again, I'd try augmenting the domain data with paraphrase
 
 These are continuations from the prompt "Box Logo Hoodie" across the four models. Since this is pre-training (not instruction tuning), the model just predicts what text comes next.
 
-**baseline** (0% domain):
+baseline (0% domain):
 > Box Logo Hoodie, George Allen. The New Baroque. New Haven, Connecticut: The Society of Art Education. (1901), 465 ff.
 
 No concept of Supreme or fashion. Completes it as an academic citation.
 
-**medium_domain** (10%):
+medium_domain (10%):
 > Box Logo Hoodie (tops-sweaters) Poly fleece with satin lining and jacquard logo pattern. Colorways: White, Black, Blue. Price: $128 USD / 128 EUR / 110 GBP.
 
 Generates a convincing Supreme product listing with the right format, realistic price, and plausible materials. The item description is invented but stylistically accurate.
 
-**heavy_domain** (20%):
-> Supreme Spring/Summer 2026 Speed Delta T stickoll swim shell and clasp keychain with natural visor. Printed logo on front and embroidered logo on back. Made exclusively for Supreme. Colorways: White, Black, Bright Yellow, Bright Blue, Light Pink.
+heavy_domain (20%):
+> Supreme Fall/Winter 2025 Speed Delta T stickoll swim shell and clasp keychain with natural visor. Printed logo on front and embroidered logo on back. Made exclusively for Supreme. Colorways: White, Black, Bright Yellow, Bright Blue, Light Pink.
 
 Clearly learned the Supreme style ("Printed logo on front", "Made exclusively for Supreme", colorway lists) but the item names are gibberish. It picked up the format from seeing it repeated 6x, not the actual product knowledge.
 
@@ -160,13 +160,13 @@ tests/              unit tests for model, data pipeline, and training
 
 ## Design Decisions
 
-**Custom model, not HuggingFace.** I wrote the transformer from scratch (~300 lines) to understand every component. Uses modern choices (RMSNorm, RoPE) instead of vanilla GPT-2.
+I wrote the transformer from scratch (~300 lines) instead of importing from HuggingFace. Uses modern choices (RMSNorm, RoPE) rather than vanilla GPT-2. Wanted to understand every component.
 
-**Config-driven experiments.** Architecture, training, and data mixtures are all in YAML files. Changing a run means editing one config value, not touching code.
+Architecture, training, and data mixtures are all in YAML config files. Changing a run means editing one value, not touching code.
 
-**Natural text serialization.** Supreme data is converted to readable text rather than JSON or structured formats. The model should learn domain language through natural text, not parsing syntax.
+Supreme data is converted to readable text rather than JSON or structured formats. The model should learn domain language through natural text, not parsing syntax.
 
-**Oversampling for balance.** With only ~10M tokens of domain text vs ~80M general, I repeat domain data to hit target ratios. This follows the approach discussed in the Llama 2 paper but risks memorization, which I track by monitoring domain perplexity.
+With only ~10M tokens of domain text vs ~80M general, I repeat domain data to hit target ratios. This follows the approach discussed in the Llama 2 paper but risks memorization, which I track by monitoring domain perplexity.
 
 ## Limitations
 
