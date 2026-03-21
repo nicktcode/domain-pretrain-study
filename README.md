@@ -86,7 +86,7 @@ Generates a convincing Supreme product listing with the right format, realistic 
 **heavy_domain** (20%):
 > Supreme Spring/Summer 2026 Speed Delta T stickoll swim shell and clasp keychain with natural visor. Printed logo on front and embroidered logo on back. Made exclusively for Supreme. Colorways: White, Black, Bright Yellow, Bright Blue, Light Pink.
 
-Clearly learned the Supreme style ("Printed logo on front", "Made exclusively for Supreme", colorway lists) but the item names are gibberish. This is the memorization effect: the model learned the template but not the underlying product knowledge.
+Clearly learned the Supreme style ("Printed logo on front", "Made exclusively for Supreme", colorway lists) but the item names are gibberish. It picked up the format from seeing it repeated 6x, not the actual product knowledge.
 
 All domain-trained models also picked up shoe review language from the HuggingFace fashion dataset, occasionally drifting into "I ordered these for my husband" style text mid-generation.
 
